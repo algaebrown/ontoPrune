@@ -9,6 +9,17 @@ def find_term_child(ont_table, terms):
     child = termterm.loc[termterm['Parent'].isin(terms)]['Child']
     
     return(set(child))
+def find_child(ont_table, term):
+    '''
+    find child for one term
+    return two list, gene_list, and term_list
+    '''
+    child = ont_table.loc[ont_table['Parent'] == term]
+    gene_list = child.loc[child['EdgeType'] == 'Gene-Term']['Child'].tolist()
+    term_list = child.loc[child['EdgeType'] == 'Child-Parent']['Child'].tolist()
+    
+    return gene_list, term_list
+    
 
 def delete_term_by_entropy(ont, term_entropy, entropy_thres):
     '''
